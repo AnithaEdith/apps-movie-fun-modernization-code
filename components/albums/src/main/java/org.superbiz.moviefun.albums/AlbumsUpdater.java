@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.NUMBER;
-import static org.superbiz.moviefun.CsvUtils.readFromCsv;
+import static org.superbiz.moviefun.albums.CsvUtils.readFromCsv;
+
 
 @Service
 public class AlbumsUpdater {
@@ -32,8 +32,8 @@ public class AlbumsUpdater {
         CsvSchema schema = CsvSchema.builder()
             .addColumn("artist")
             .addColumn("title")
-            .addColumn("year", NUMBER)
-            .addColumn("rating", NUMBER)
+            .addColumn("year", CsvSchema.ColumnType.NUMBER)
+            .addColumn("rating", CsvSchema.ColumnType.NUMBER)
             .build();
 
         objectReader = new CsvMapper().readerFor(Album.class).with(schema);

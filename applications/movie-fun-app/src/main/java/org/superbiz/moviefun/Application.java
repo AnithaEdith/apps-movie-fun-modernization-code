@@ -19,15 +19,14 @@ public class Application {
     }
 
     @Bean
-    public ServletRegistrationBean actionServletRegistration(ActionServlet actionServlet) {
-        return new ServletRegistrationBean(actionServlet, "/moviefun/*");
+    public ServletRegistrationBean actionServletRegistration(org.superbiz.moviefun.MovieServlet movieServlet) {
+        return new ServletRegistrationBean(movieServlet, "/moviefun/*");
     }
 
-    @Value("${s3.endpointUrl}") String s3EndpointUrl;
-    @Value("${s3.accessKey}") String s3AccessKey;
-    @Value("${s3.secretKey}") String s3SecretKey;
-    @Value("${s3.bucketName}") String s3BucketName;
-
+    @Value("${S3_ENDPOINTURL}") String s3EndpointUrl;
+    @Value("${S3_ACCESSKEY}") String s3AccessKey;
+    @Value("${S3_SECRETKEY}") String s3SecretKey;
+    @Value("${S3_BUCKETNAME}") String s3BucketName;
     @Bean
     public BlobStore blobStore() {
         AWSCredentials credentials = new BasicAWSCredentials(s3AccessKey, s3SecretKey);
