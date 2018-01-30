@@ -23,10 +23,10 @@ public class Application {
         return new ServletRegistrationBean(actionServlet, "/moviefun/*");
     }
 
-    @Value("${s3.endpointUrl}") String s3EndpointUrl;
-    @Value("${s3.accessKey}") String s3AccessKey;
-    @Value("${s3.secretKey}") String s3SecretKey;
-    @Value("${s3.bucketName}") String s3BucketName;
+    @Value("${S3_ENDPOINTURL}") String s3EndpointUrl;
+    @Value("${S3_ACCESSKEY}") String s3AccessKey;
+    @Value("${S3_SECRETKEY}") String s3SecretKey;
+    @Value("${S3_BUCKETNAME}") String s3BucketName;
 
     @Bean
     public BlobStore blobStore() {
