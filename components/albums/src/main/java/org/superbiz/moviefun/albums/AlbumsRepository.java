@@ -15,6 +15,8 @@ package org.superbiz.moviefun.albums; /**
  * limitations under the License.
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
-public class AlbumsBean {
+public class AlbumsRepository {
+
+    Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -39,9 +43,12 @@ public class AlbumsBean {
     }
 
     public List<Album> getAlbums() {
+        logger.info("inside AlbumsRepository");
         CriteriaQuery<Album> cq = entityManager.getCriteriaBuilder().createQuery(Album.class);
+        logger.info("inside AlbumsRepository 2");
         cq.select(cq.from(Album.class));
         return entityManager.createQuery(cq).getResultList();
+
     }
 
     @Transactional

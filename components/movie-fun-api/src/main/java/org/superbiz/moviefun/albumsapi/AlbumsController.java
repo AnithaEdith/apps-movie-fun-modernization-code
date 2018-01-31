@@ -1,8 +1,9 @@
-package org.superbiz.moviefun.albums;
+package org.superbiz.moviefun.albumsapi;
 
 import org.apache.tika.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,31 +20,32 @@ import java.util.Map;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @Controller
 @RequestMapping("/albums")
 public class AlbumsController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final AlbumsBean albumsBean;
-    private final BlobStore blobStore;
+    private final AlbumsClient albumsClient;
 
-    public AlbumsController(AlbumsBean albumsBean, BlobStore blobStore) {
-        this.albumsBean = albumsBean;
-        this.blobStore = blobStore;
+    @Autowired
+    BlobStore blobStore;
+
+    public AlbumsController(AlbumsClient albumsClient) {
+        this.albumsClient = albumsClient;
+   //     this.blobStore = blobStore;
     }
 
 
     @GetMapping
     public String index(Map<String, Object> model) {
-        model.put("albums", albumsBean.getAlbums());
+        model.put("albums", albumsClient.findAllAlbums());
         return "albums";
     }
 
     @GetMapping("/{albumId}")
     public String details(@PathVariable long albumId, Map<String, Object> model) {
-        model.put("album", albumsBean.find(albumId));
+        model.put("album", albumsClient.getAlbum(albumId));
         return "albumDetails";
     }
 

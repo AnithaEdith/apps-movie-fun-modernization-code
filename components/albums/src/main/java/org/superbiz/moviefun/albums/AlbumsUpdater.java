@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.superbiz.moviefun.CsvUtils;
 import org.superbiz.moviefun.blobstore.Blob;
@@ -23,11 +24,13 @@ public class AlbumsUpdater {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ObjectReader objectReader;
-    private final BlobStore blobStore;
-    private final AlbumsBean albumsBean;
 
-    public AlbumsUpdater(BlobStore blobStore, AlbumsBean albumsBean) {
-        this.blobStore = blobStore;
+    @Autowired
+    BlobStore blobStore;
+    private final AlbumsRepository albumsBean;
+
+    public AlbumsUpdater( AlbumsRepository albumsBean) {
+      //  this.blobStore = blobStore;
         this.albumsBean = albumsBean;
 
         CsvSchema schema = builder()

@@ -1,0 +1,28 @@
+---
+memory: 1G
+disk: 1G
+instances: 1
+
+applications:
+- name: album-service_ae
+  path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
+  env:
+    S3_ACCESSKEY: AKIAIVXZRF5SRSFIU4UQ
+    S3_SECRETKEY: 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
+    S3_BUCKETNAME: cf-af0b3817-b165-4885-ae18-a47d18983cc5
+    S3_ENDPOINTURL: http://s3.amazonaws.com
+  services:
+  - album-database
+
+- name: movie-service_ae
+  path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
+  services:
+  - movie-database
+
+- name: moviefun
+  path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+  env:
+    MOVIES_URL: https://movie-service-ae.apps.cumuluslabs.io/movies
+    ALBUMS_URL: https://album-service-ae.apps.cumuluslabs.io/albumservice
+  routes:
+    - route: ae.apps.cumuluslabs.io
