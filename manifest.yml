@@ -3,21 +3,28 @@ memory: 1G
 instances: 1
 services:
 - movie-fun-sso
+- movie-fun-registry
 applications:
-- name: album-service
+- name: album-service_ae
   path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
   services:
   - album-database
+  routes:
+    - route: album-service-ae.apps.cumuluslabs.io
   env:
     GRANT_TYPE: client_credentials
-- name: movie-service
+
+- name: movie-service_ae
   path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
   services:
   - movie-database
+  routes:
+    - route: movie-service-ae.apps.cumuluslabs.io
   env:
     GRANT_TYPE: client_credentials
-- name: movie-fun-app
+
+- name: moviefun
   path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
   env:
-    ALBUMS_URL: http://album-service.cfapps-02.haas-66.pez.pivotal.io/albums
-    MOVIES_URL: http://movie-service.cfapps-02.haas-66.pez.pivotal.io/movies
+    MOVIES_URL: //movie-service/movies
+    ALBUMS_URL: //album-service/albums
