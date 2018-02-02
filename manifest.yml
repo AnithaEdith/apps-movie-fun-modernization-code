@@ -4,6 +4,7 @@ instances: 1
 services:
 - movie-fun-sso
 - movie-fun-registry
+
 applications:
 - name: album-service
   path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
@@ -11,13 +12,32 @@ applications:
   - album-database
   env:
     GRANT_TYPE: client_credentials
+    S3_ACCESSKEY: AKIAJ3QQCBJLJ35FT7PA
+    S3_BUCKETNAME: cf-af0b3817-b165-4885-ae18-a47d18983cc5
+    S3_ENDPOINTURL: http://s3.amazonaws.com
+    S3_SECRETKEY: PwTe9YVPbb5y6n0wKTgE/6e2DD3LdYich65uVuYq
+  routes:
+     - route: album-service-ae1.apps.cumuluslabs.io
+
 - name: movie-service
   path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
   services:
   - movie-database
+  routes:
+   - route: movie-service-ae1.apps.cumuluslabs.io
   env:
     GRANT_TYPE: client_credentials
+
 - name: movie-fun-app
   path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
   services:
-  - movie-fun-config
+    - movie-fun-config
+    - movie-fun-circuit-breaker
+  routes:
+    - route: moviefun-ae1.apps.cumuluslabs.io
+    env:
+     GRANT_TYPE: authorization_code
+     S3_ACCESSKEY: AKIAJ3QQCBJLJ35FT7PA
+     S3_BUCKETNAME: cf-af0b3817-b165-4885-ae18-a47d18983cc5
+     S3_ENDPOINTURL: http://s3.amazonaws.com
+     S3_SECRETKEY: PwTe9YVPbb5y6n0wKTgE/6e2DD3LdYich65uVuYq
