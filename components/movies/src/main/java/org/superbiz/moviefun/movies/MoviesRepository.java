@@ -54,6 +54,8 @@ public class MoviesRepository {
 
     @Transactional
     public void deleteMovie(Movie movie) {
+        logger.debug("deleteMovie ", movie.getTitle() );
+
         entityManager.remove(movie);
     }
 
